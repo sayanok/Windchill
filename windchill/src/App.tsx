@@ -7,14 +7,14 @@ const App: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   function onClickHandler() {
-    if (validator()) {
+    if (validate()) {
       calculate();
     } else {
       console.log("error: 温度と風速を入力してください");
     }
   }
 
-  function validator() {
+  function validate() {
     if (typeof temperature === "number" && typeof windVelocity === "number") {
       setErrorMessage("");
       return true;
