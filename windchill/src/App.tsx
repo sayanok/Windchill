@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const App: React.FC = () => {
-  const [temperature, setTemperature] = useState(0);
-  const [windVelocity, setWindVelocity] = useState(0);
+  const [temperature, setTemperature] = useState<number>();
+  const [windVelocity, setWindVelocity] = useState<number>();
   const [windchill, setWindchill] = useState<number>();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -15,7 +15,12 @@ const App: React.FC = () => {
   }
 
   function validate() {
-    if (typeof temperature === "number" && typeof windVelocity === "number") {
+    if (
+      typeof temperature === "number" &&
+      typeof windVelocity === "number" &&
+      !Number.isNaN(temperature) &&
+      !Number.isNaN(windVelocity)
+    ) {
       setErrorMessage("");
       return true;
     } else {
@@ -25,9 +30,11 @@ const App: React.FC = () => {
   }
 
   function calculate() {
-    const result =
-      13.12 + 0.6125 * temperature - 11.37 * windVelocity ** 0.16 + 0.3965 * temperature * windVelocity ** 0.16;
-    setWindchill(Math.round(result));
+    if (temperature !== undefined && windVelocity !== undefined) {
+      const result =
+        13.12 + 0.6125 * temperature - 11.37 * windVelocity ** 0.16 + 0.3965 * temperature * windVelocity ** 0.16;
+      setWindchill(Math.round(result));
+    }
   }
 
   return (
